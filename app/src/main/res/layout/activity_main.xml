@@ -18,7 +18,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="16dp">
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txtTitulo"
@@ -35,6 +36,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:hint="Código">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txtcodigo"
@@ -48,6 +50,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:hint="Producto">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txtProducto"
@@ -60,6 +63,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:hint="Precio">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txtPrecio"
@@ -112,7 +116,7 @@
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnGrabar"
                     style="@style/Widget.MaterialComponents.Button"
-                    android:layout_width="0dp"
+                    android:layout_width="1dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Grabar"

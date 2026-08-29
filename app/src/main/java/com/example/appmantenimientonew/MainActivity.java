@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -51,15 +52,27 @@ public class MainActivity extends AppCompatActivity {
 
         // Grabar
         btnGrabar.setOnClickListener(v -> {
-            String cod = txtcodigo.getText().toString();
-            String prod = txtProducto.getText().toString();
-            double precio = Double.parseDouble(txtPrecio.getText().toString());
-            int cant = Integer.parseInt(txtCantidad.getText().toString());
-            double total = precio * cant;
-            txtResultado.setText("Total: S/. " + total);
-            lista.add(new ProformaItem(cod, prod, precio, cant));
-            adaptador.notifyDataSetChanged();
-            limpiarCampos();
+            String cod = txtcodigo.getText().toString().trim();
+            String prod = txtProducto.getText().toString().trim();
+            String precioStr = txtPrecio.getText().toString().trim();
+            String cantStr = txtCantidad.getText().toString().trim();
+
+            if (cod.isEmpty() || prod.isEmpty() || precioStr.isEmpty() || cantStr.isEmpty()) {
+                Toast.makeText(this, getString(R.string.msg_completar_campos), Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            try {
+                double precio = Double.parseDouble(precioStr);
+                int cant = Integer.parseInt(cantStr);
+                double total = precio * cant;
+                txtResultado.setText(getString(R.string.formato_total, total));
+                lista.add(new ProformaItem(cod, prod, precio, cant));
+                adaptador.notifyDataSetChanged();
+                limpiarCampos();
+            } catch (NumberFormatException e) {
+                Toast.makeText(this, getString(R.string.msg_precio_cantidad_invalidos), Toast.LENGTH_SHORT).show();
+            }
         });
 
         // Seleccionar item
@@ -70,28 +83,45 @@ public class MainActivity extends AppCompatActivity {
             txtProducto.setText(item.getProducto());
             txtPrecio.setText(String.valueOf(item.getPrecio()));
             txtCantidad.setText(String.valueOf(item.getCantidad()));
-            txtResultado.setText("S/. " + item.getTotal());
+            txtResultado.setText(getString(R.string.formato_total, item.getTotal()));
         });
 
         // Editar
         btnEditar.setOnClickListener(v -> {
-            if (posicionSeleccionada != -1) {
+            if (posicionSeleccionada == -1) {
+                Toast.makeText(this, getString(R.string.msg_seleccionar_item), Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            String precioStr = txtPrecio.getText().toString().trim();
+            String cantStr = txtCantidad.getText().toString().trim();
+
+            if (precioStr.isEmpty() || cantStr.isEmpty()) {
+                Toast.makeText(this, getString(R.string.msg_completar_precio_cantidad), Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            try {
                 ProformaItem item = lista.get(posicionSeleccionada);
-                item.setProducto(txtProducto.getText().toString());
-                item.setPrecio(Double.parseDouble(txtPrecio.getText().toString()));
-                item.setCantidad(Integer.parseInt(txtCantidad.getText().toString()));
+                item.setProducto(txtProducto.getText().toString().trim());
+                item.setPrecio(Double.parseDouble(precioStr));
+                item.setCantidad(Integer.parseInt(cantStr));
                 adaptador.notifyDataSetChanged();
                 limpiarCampos();
+            } catch (NumberFormatException e) {
+                Toast.makeText(this, getString(R.string.msg_precio_cantidad_invalidos), Toast.LENGTH_SHORT).show();
             }
         });
 
         // Eliminar
         btnEliminar.setOnClickListener(v -> {
-            if (posicionSeleccionada != -1) {
-                lista.remove(posicionSeleccionada);
-                adaptador.notifyDataSetChanged();
-                limpiarCampos();
+            if (posicionSeleccionada == -1) {
+                Toast.makeText(this, getString(R.string.msg_seleccionar_item), Toast.LENGTH_SHORT).show();
+                return;
             }
+            lista.remove(posicionSeleccionada);
+            adaptador.notifyDataSetChanged();
+            limpiarCampos();
         });
     }
 
