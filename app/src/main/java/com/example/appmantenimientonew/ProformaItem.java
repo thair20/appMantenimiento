@@ -32,6 +32,6 @@ public class ProformaItem {
 
     @Override
     public String toString() {
-        return "DNI: " + codigo + " | " + producto + " | S/. " + precio + " | Cant: " + cantidad + " | Total: S/. " + getTotal();
+        return "Código: " + codigo + " | " + producto + " | S/. " + precio + " | Cant: " + cantidad + " | Total: S/. " + getTotal();
     }
 }
