@@ -50,12 +50,14 @@ public class MainActivity extends AppCompatActivity {
         btnEliminar = findViewById(R.id.btnEliminar);
         listProforma = findViewById(R.id.ListProforma);
 
-        // AQUÍ ESTÁ EL CAMBIO CLAVE PARA USAR TU PROFORMA_ITEM
-        adaptador = new ArrayAdapter<Proformaltem>(this, R.layout.proforma_item, R.id.txtItemTexto, lista);
+        // Adaptador enlazado a tu diseño personalizado proforma_item.xml
+        adaptador = new ArrayAdapter<>(this, R.layout.proforma_item, R.id.txtItemTexto, lista);
         listProforma.setAdapter(adaptador);
 
+        // Botón Nuevo
         btnNuevo.setOnClickListener(v -> limpiarCampos());
 
+        // Botón Grabar
         btnGrabar.setOnClickListener(v -> {
             String codigo = txtcodigo.getText().toString().trim();
             String producto = txtProducto.getText().toString().trim();
@@ -67,17 +69,22 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
-            double precio = Double.parseDouble(precioStr);
-            int cantidad = Integer.parseInt(cantidadStr);
-            double total = precio * cantidad;
+            try {
+                double precio = Double.parseDouble(precioStr);
+                int cantidad = Integer.parseInt(cantidadStr);
+                double total = precio * cantidad;
 
-            txtResultado.setText("S/. " + String.format("%.2f", total));
-            lista.add(new Proformaltem(codigo, producto, precio, cantidad));
-            adaptador.notifyDataSetChanged();
-            limpiarCampos();
-            Toast.makeText(this, "Registrado correctamente", Toast.LENGTH_SHORT).show();
+                txtResultado.setText("S/. " + String.format("%.2f", total));
+                lista.add(new Proformaltem(codigo, producto, precio, cantidad));
+                adaptador.notifyDataSetChanged();
+                limpiarCampos();
+                Toast.makeText(this, "Registrado correctamente", Toast.LENGTH_SHORT).show();
+            } catch (NumberFormatException e) {
+                Toast.makeText(this, "Ingrese valores numéricos válidos", Toast.LENGTH_SHORT).show();
+            }
         });
 
+        // Seleccionar elemento de la lista
         listProforma.setOnItemClickListener((parent, view, position, id) -> {
             posicionSeleccionada = position;
             Proformaltem item = lista.get(position);
@@ -88,27 +95,37 @@ public class MainActivity extends AppCompatActivity {
             txtResultado.setText("S/. " + String.format("%.2f", item.getTotal()));
         });
 
+        // Botón Editar (Actual)
         btnEditar.setOnClickListener(v -> {
             if (posicionSeleccionada >= 0 && posicionSeleccionada < lista.size()) {
-                Proformaltem item = lista.get(posicionSeleccionada);
-                item.setCodigo(txtcodigo.getText().toString().trim());
-                item.setProducto(txtProducto.getText().toString().trim());
+                String precioStr = txtPrecio.getText().toString().trim();
+                String cantidadStr = txtCantidad.getText().toString().trim();
 
-                String pStr = txtPrecio.getText().toString().trim();
-                String cStr = txtCantidad.getText().toString().trim();
+                if (precioStr.isEmpty() || cantidadStr.isEmpty()) {
+                    Toast.makeText(this, "Complete precio y cantidad para editar", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-                if (!pStr.isEmpty()) item.setPrecio(Double.parseDouble(pStr));
-                if (!cStr.isEmpty()) item.setCantidad(Integer.parseInt(cStr));
+                try {
+                    Proformaltem item = lista.get(posicionSeleccionada);
+                    item.setCodigo(txtcodigo.getText().toString().trim());
+                    item.setProducto(txtProducto.getText().toString().trim());
+                    item.setPrecio(Double.parseDouble(precioStr));
+                    item.setCantidad(Integer.parseInt(cantidadStr));
 
-                adaptador.notifyDataSetChanged();
-                txtResultado.setText("S/. " + String.format("%.2f", item.getTotal()));
-                Toast.makeText(this, "Actualizado correctamente", Toast.LENGTH_SHORT).show();
-                limpiarCampos();
+                    adaptador.notifyDataSetChanged();
+                    txtResultado.setText("S/. " + String.format("%.2f", item.getTotal()));
+                    Toast.makeText(this, "Actualizado correctamente", Toast.LENGTH_SHORT).show();
+                    limpiarCampos();
+                } catch (NumberFormatException e) {
+                    Toast.makeText(this, "Ingrese valores numéricos válidos", Toast.LENGTH_SHORT).show();
+                }
             } else {
                 Toast.makeText(this, "Seleccione un elemento de la lista", Toast.LENGTH_SHORT).show();
             }
         });
 
+        // Botón Eliminar (Borrar)
         btnEliminar.setOnClickListener(v -> {
             if (posicionSeleccionada >= 0 && posicionSeleccionada < lista.size()) {
                 lista.remove(posicionSeleccionada);

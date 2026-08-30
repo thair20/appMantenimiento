@@ -49,6 +49,7 @@
                 android:layout_marginBottom="14dp"
                 android:elevation="6dp">
 
+                <!-- Código del Producto con validación maxLength -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -63,11 +64,13 @@
                         android:id="@+id/txtcodigo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:maxLength="6"
                         android:textSize="15sp"
                         android:textColor="#FFFFFF"
                         android:textStyle="bold"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <!-- Descripción del Producto con validación maxLength -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -82,6 +85,7 @@
                         android:id="@+id/txtProducto"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:maxLength="40"
                         android:textSize="15sp"
                         android:textColor="#FFFFFF"
                         android:textStyle="bold"/>
@@ -166,7 +170,7 @@
                         android:textColor="#FACC15"/>
                 </LinearLayout>
 
-                <!-- Botones corregidos con texto de corrido (8sp y sin márgenes laterales grandes) -->
+                <!-- Botones -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
