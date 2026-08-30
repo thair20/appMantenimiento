@@ -1,9 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.AppMantenimientoNew" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <style name="Base.Theme.Appproforma" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimaryCustom</item>
+        <item name="colorSecondary">@color/colorSecondaryCustom</item>
     </style>
-
-    <style name="Theme.AppMantenimientoNew" parent="Base.Theme.AppMantenimientoNew" />
+    <style name="Theme.Appproforma" parent="Base.Theme.Appproforma" />
 </resources>

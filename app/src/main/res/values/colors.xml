@@ -2,4 +2,10 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="colorPrimaryCustom">#1E3A8A</color>
+    <color name="colorSecondaryCustom">#3B82F6</color>
+    <color name="backgroundApp">#F8FAFC</color>
+    <color name="cardBackground">#FFFFFF</color>
+    <color name="textColorPrimary">#0F172A</color>
+    <color name="textColorSecondary">#64748B</color>
 </resources>
